@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21 // Hoặc phiên bản Java bạn sử dụng
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral() // Để tải các thư viện Selenium và TestNG
+}
+
+dependencies {
+    // Selenium >=4
+    implementation 'org.seleniumhq.selenium:selenium-java:4.16.1'
+
+    // TestNG cho test case (tuỳ chọn)
+    testImplementation 'org.testng:testng:7.7.0'
+
+    // SLF4J Logger để loại bỏ cảnh báo
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+
+}
+
+tasks.test {
+    useTestNG() // Sử dụng TestNG nếu bạn viết test case
+}
