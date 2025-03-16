@@ -116,15 +116,15 @@ public class BasePage {
         if(prefixLocator.toUpperCase().startsWith("ID")){
             by = By.id(prefixLocator.substring(3));
         } else if(prefixLocator.toUpperCase().startsWith("CLASS")){
-            by = By.id(prefixLocator.substring(6));
+            by = By.className(prefixLocator.substring(6));
         } else if(prefixLocator.toUpperCase().startsWith("NAME")){
-            by = By.id(prefixLocator.substring(5));
+            by = By.name(prefixLocator.substring(5));
         } else if(prefixLocator.toUpperCase().startsWith("TAGNAME")){
-            by = By.id(prefixLocator.substring(8));
+            by = By.tagName(prefixLocator.substring(8));
         } else if(prefixLocator.toUpperCase().startsWith("CSS")){
-            by = By.id(prefixLocator.substring(4));
+            by = By.cssSelector(prefixLocator.substring(4));
         } else if(prefixLocator.toUpperCase().startsWith("XPATH")){
-            by = By.id(prefixLocator.substring(6));
+            by = By.xpath(prefixLocator.substring(6));
         }else {
             throw new RuntimeException("Locator type is not support");
         }
@@ -135,11 +135,11 @@ public class BasePage {
         return By.xpath(locator);
     }
 
-    public void clickToElementByXpath(WebDriver driver, String locator) {
+    public void clickToElement(WebDriver driver, String locator) {
         getElement(driver, locator).click();
     }
 
-    public void clickToElementByXpath(WebDriver driver, String locator, String restParameter) {
+    public void clickToElement(WebDriver driver, String locator, String restParameter) {
         getElement(driver, castParameter(locator, restParameter)).click();
     }
 
