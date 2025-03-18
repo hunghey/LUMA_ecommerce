@@ -2,8 +2,11 @@ package pageObjects.orangehrm.pim.employee;
 
 import commons.BasePage;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import pageUIs.oranghrm.pim.employee.PersonalDetailsUI;
+import utilities.ImageComparison;
+import utilities.ScreenshotUtil;
 
 public class PersonalDetails extends BasePage {
     private WebDriver driver;
@@ -34,16 +37,11 @@ public class PersonalDetails extends BasePage {
         clickToElement(driver, PersonalDetailsUI.SAVE_BTN_CHANGE_PROFILE);
     }
 
-    public boolean isSuccessMessageIsDisplayed() {
-        waitForElementVisible(driver, PersonalDetailsUI.SUCCESS_MESSAGE);
-        return isElementDisplayed(driver, PersonalDetailsUI.SUCCESS_MESSAGE);
-    }
-
-    public boolean isProfileAvatarUpdateSuccess(Dimension beforeSizeImage) throws InterruptedException {
+    public boolean isProfileAvatarUpdateSuccess(String beforeChangeAvatar) throws InterruptedException {
         waitForElementVisible(driver,PersonalDetailsUI.SAVE_BTN_CHANGE_PROFILE);
-        Thread.sleep(1000);
-        Dimension afterUploadAvt = getAvatarSize();
-        return beforeSizeImage.equals(afterUploadAvt);
+        Thread.sleep(3000);
+        String afterChangeAvatar = ScreenshotUtil.captureScreenshot(driver);
+        return ImageComparison.compareImages(beforeChangeAvatar,afterChangeAvatar);
     }
 
 }

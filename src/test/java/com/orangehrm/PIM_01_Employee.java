@@ -1,7 +1,6 @@
 package com.orangehrm;
 
 import com.common.BaseTest;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -11,7 +10,11 @@ import org.testng.annotations.Test;
 import pageObjects.orangehrm.Dashboard;
 import pageObjects.orangehrm.Login;
 import pageObjects.orangehrm.PageGenerator;
-import pageObjects.orangehrm.pim.employee.*;
+import pageObjects.orangehrm.pim.employee.AddNewEmployee;
+import pageObjects.orangehrm.pim.employee.ContactDetails;
+import pageObjects.orangehrm.pim.employee.EmployeeListDetail;
+import pageObjects.orangehrm.pim.employee.PersonalDetails;
+import utilities.ScreenshotUtil;
 
 public class PIM_01_Employee extends BaseTest {
     private WebDriver driver;
@@ -60,8 +63,8 @@ public class PIM_01_Employee extends BaseTest {
     @Test
     public void Employee_Upload_Avatar() throws InterruptedException {
         personalDetailsPage.clickToElementAvatarImage();
-
-        Dimension beforeSizeImage = personalDetailsPage.getAvatarSize();
+        Thread.sleep(3000);
+        String beforeChangeAvatar = ScreenshotUtil.captureScreenshot(driver);
 
         personalDetailsPage.uploadMultipleFiles(driver, AVATAR_IMAGE);
         personalDetailsPage.clickToSaveBtnAvatar();
@@ -69,7 +72,7 @@ public class PIM_01_Employee extends BaseTest {
         Assert.assertEquals(personalDetailsPage.getMessageValidate(), "Successfully Updated");
         personalDetailsPage.waitAllLoadingIconInvisible(driver);
         Assert.assertEquals(personalDetailsPage.getTitleEmployee(), "Change Profile Picture");
-        Assert.assertFalse(personalDetailsPage.isProfileAvatarUpdateSuccess(beforeSizeImage));
+        Assert.assertFalse(personalDetailsPage.isProfileAvatarUpdateSuccess(beforeChangeAvatar));
 
     }
 

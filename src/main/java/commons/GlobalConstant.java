@@ -16,4 +16,8 @@ public class GlobalConstant {
         return Paths.get(PROJECT_PATH, "src", "test", "resources", "images").toString() + SEPARATOR;
     }
 
+    public static String getScreenshotpathPath() {
+        return Paths.get(PROJECT_PATH, "src", "test", "resources","screenshots").toString() + SEPARATOR;
+    }
+
 }
