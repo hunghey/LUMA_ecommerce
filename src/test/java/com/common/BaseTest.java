@@ -1,7 +1,6 @@
-package com.orangehrm;
+package com.common;
 
 import commons.BrowserList;
-import commons.VerificationFailures;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -14,9 +13,9 @@ import java.time.Duration;
 public class BaseTest {
     private WebDriver driver;
 
-    protected WebDriver getWebdriver(String browserName, String url){
+    protected WebDriver getWebdriver(String browserName, String url) {
         BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
-        switch (browserList){
+        switch (browserList) {
             case FIREFOX:
                 driver = new FirefoxDriver();
                 break;
@@ -33,6 +32,7 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         return driver;
     }
+
     protected boolean verifyTrue(boolean condition) {
         boolean pass = true;
         try {
