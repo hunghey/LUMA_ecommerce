@@ -145,7 +145,16 @@ public class BasePage {
     }
 
     public void sendKeyToElement(WebDriver driver, String locator, String keyToSend) {
+        Keys key = null;
+        if (GlobalConstant.OS_NAME.startsWith("Windows")) {
+            key = Keys.CONTROL;
+        } else {
+            key = Keys.COMMAND;
+        }
+        getElement(driver, locator).sendKeys(Keys.chord(key, "a", Keys.BACK_SPACE));
+        sleepInSeconds(1);
         getElement(driver, locator).sendKeys(keyToSend);
+
     }
 
     public void sendKeyToElement(WebDriver driver, String locator, String keyToSend, String restParameter) {
@@ -166,10 +175,10 @@ public class BasePage {
     }
 
     public void selectItemInCustomDropdown(WebDriver driver, String parentLocator, String childItemLocator, String expectedItem) {
-        driver.findElement(By.xpath(parentLocator)).click();
+        getElement(driver, parentLocator).click();
 
         List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15))
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(parentLocator)));
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(childItemLocator)));
 
         for (WebElement item : allItems) {
             if (item.getText().trim().equals(expectedItem)) {
@@ -225,29 +234,35 @@ public class BasePage {
         }
     }
 
+    public void checkToCheckboxRadio(WebDriver driver, String locator, String restParameter) {
+        if (!getElement(driver, castParameter(locator,restParameter)).isSelected()) {
+            getElement(driver, castParameter(locator,restParameter)).click();
+        }
+    }
+
     public void uncheckToCheckbox(WebDriver driver, String locator) {
         if (getElement(driver, locator).isSelected()) {
             getElement(driver, locator).click();
         }
     }
 
-    public Boolean isElementDisplayed(WebDriver driver, String locator) {
+    public boolean isElementDisplayed(WebDriver driver, String locator) {
         return getElement(driver, locator).isDisplayed();
     }
 
-    public Boolean isElementDisplayed(WebDriver driver, String locator, String restParameter) {
+    public boolean isElementDisplayed(WebDriver driver, String locator, String restParameter) {
         return getElement(driver, castParameter(locator, restParameter)).isDisplayed();
     }
 
-    public Boolean isElementEnable(WebDriver driver, String locator) {
+    public boolean isElementEnable(WebDriver driver, String locator) {
         return getElement(driver, locator).isEnabled();
     }
 
-    public Boolean isElementSelected(WebDriver driver, String locator) {
+    public boolean isElementSelected(WebDriver driver, String locator) {
         return getElement(driver, locator).isSelected();
     }
 
-    public Boolean isElementSelected(WebDriver driver, String locator, String restParameter) {
+    public boolean isElementSelected(WebDriver driver, String locator, String restParameter) {
         return getElement(driver, castParameter(locator, restParameter)).isSelected();
     }
 
@@ -297,7 +312,12 @@ public class BasePage {
 
     public void clickToElementByJS(WebDriver driver, String locator) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(driver, locator));
-        sleepInSeconds(3);
+        sleepInSeconds(2);
+    }
+
+    public void clickToElementByJS(WebDriver driver, String locator, String restParameter) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(driver, castParameter(locator, restParameter)));
+        sleepInSeconds(2);
     }
 
     public void scrollToElementOnTopByJS(WebDriver driver, String locator) {
