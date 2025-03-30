@@ -1,10 +1,11 @@
-package com.common;
+package commons;
 
-import commons.BrowserList;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Reporter;
 import org.testng.Assert;
 
@@ -19,8 +20,18 @@ public class BaseTest {
             case FIREFOX:
                 driver = new FirefoxDriver();
                 break;
+            case HFIREFOX:
+                FirefoxOptions options = new FirefoxOptions();
+                options.addArguments("-headless");
+                driver = new FirefoxDriver(options);
+                break;
             case CHROME:
                 driver = new ChromeDriver();
+                break;
+            case HCHROME:
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("-headless");
+                driver = new ChromeDriver(chromeOptions);
                 break;
             case EDGE:
                 driver = new EdgeDriver();
@@ -30,6 +41,7 @@ public class BaseTest {
         }
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
         return driver;
     }
 

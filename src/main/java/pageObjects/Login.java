@@ -1,8 +1,8 @@
-package pageObjects.orangehrm;
+package pageObjects;
 
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
-import pageUIs.oranghrm.LoginPageUI;
+import pageUIs.LoginPageUI;
 
 public class Login extends BasePage {
     private WebDriver driver;

@@ -1,4 +1,4 @@
-package pageUIs.oranghrm;
+package pageUIs;
 
 public class DashboardUI {
     public static final String PIM_LINK = "xpath=//ul[@class='oxd-main-menu']//span[text()='PIM']";
