@@ -1,9 +1,9 @@
-package pageObjects.orangehrm.pim.employee;
+package pageObjects.pim.employee;
 
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
-import pageObjects.orangehrm.PageGenerator;
-import pageUIs.oranghrm.pim.employee.EmployeeListDetailsUI;
+import pageObjects.PageGenerator;
+import pageUIs.pim.employee.EmployeeListDetailsUI;
 
 public class EmployeeListDetail extends BasePage {
     private WebDriver driver;

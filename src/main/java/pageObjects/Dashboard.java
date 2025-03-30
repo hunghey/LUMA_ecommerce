@@ -1,9 +1,9 @@
-package pageObjects.orangehrm;
+package pageObjects;
 
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
-import pageObjects.orangehrm.pim.employee.EmployeeListDetail;
-import pageUIs.oranghrm.DashboardUI;
+import pageObjects.pim.employee.EmployeeListDetail;
+import pageUIs.DashboardUI;
 
 public class Dashboard extends BasePage {
     private WebDriver driver;

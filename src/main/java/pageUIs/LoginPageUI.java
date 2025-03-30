@@ -1,4 +1,4 @@
-package pageUIs.oranghrm;
+package pageUIs;
 
 public class LoginPageUI {
     public static final String USERNAME_TEXTBOX = "name=username";

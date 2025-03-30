@@ -1,4 +1,4 @@
-package pageUIs.oranghrm.pim.employee;
+package pageUIs.pim.employee;
 
 public class EmployeeTabUI {
     public static final String PERSONAL_DETAIL_LINK = "XPATH=//a[text()='Personal Details']";

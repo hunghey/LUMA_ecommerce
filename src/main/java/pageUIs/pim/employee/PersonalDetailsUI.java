@@ -1,4 +1,4 @@
-package pageUIs.oranghrm.pim.employee;
+package pageUIs.pim.employee;
 
 public class PersonalDetailsUI {
     public static final String MAIN_TITLE = "CSS=div.orangehrm-vertical-padding>h6.orangehrm-main-title";

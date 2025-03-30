@@ -1,10 +1,10 @@
-package pageObjects.orangehrm.pim.employee;
+package pageObjects.pim.employee;
 
 import commons.BasePage;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import pageUIs.oranghrm.pim.employee.EmployeeTabUI;
-import pageUIs.oranghrm.pim.employee.PersonalDetailsUI;
+import pageUIs.pim.employee.EmployeeTabUI;
+import pageUIs.pim.employee.PersonalDetailsUI;
 import utilities.ImageComparison;
 import utilities.ScreenshotUtil;
 
