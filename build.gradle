@@ -11,18 +11,30 @@ repositories {
     mavenCentral() // Để tải các thư viện Selenium và TestNG
 }
 
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
 dependencies {
     // Selenium >=4
     implementation 'org.seleniumhq.selenium:selenium-java:4.16.1'
 
     // TestNG cho test case (tuỳ chọn)
-    testImplementation 'org.testng:testng:7.7.0'
+    implementation 'org.testng:testng:7.7.0'
 
     // SLF4J Logger để loại bỏ cảnh báo
     implementation 'org.slf4j:slf4j-simple:2.0.9'
 
+    implementation 'commons-io:commons-io:2.11.0'
+
 }
 
 tasks.test {
-    useTestNG() // Sử dụng TestNG nếu bạn viết test case
+    useTestNG(){
+        suites('src/test/resources/testNG.xml')
+        outputDirectory = file("$projectDir/test-output")
+    }
+
+    testLogging {
+        showStandardStreams = true
+    }
 }
