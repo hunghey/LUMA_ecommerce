@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageUIs.BasePageUI;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -146,7 +148,7 @@ public class BasePage {
 
     public void sendKeyToElement(WebDriver driver, String locator, String keyToSend) {
         Keys key = null;
-        if (GlobalConstant.OS_NAME.startsWith("Windows")) {
+        if (GlobalConstants.OS_NAME.startsWith("Windows")) {
             key = Keys.CONTROL;
         } else {
             key = Keys.COMMAND;
@@ -359,43 +361,43 @@ public class BasePage {
     }
 
     public void waitForElementVisible(WebDriver driver, String locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
     }
 
     public void waitForElementVisible(WebDriver driver, String locator, String restParameter) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
     }
 
     public void waitForElementSelected(WebDriver driver, String locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
     }
 
     public void waitForElementSelected(WebDriver driver, String locator, String restParameter) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(castParameter(locator, restParameter))));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(castParameter(locator, restParameter))));
     }
 
     public void waitForElementPresence(WebDriver driver, String locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.presenceOfElementLocated(getByLocator(locator)));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.presenceOfElementLocated(getByLocator(locator)));
     }
 
     public void waitForElementInVisible(WebDriver driver, String locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
     }
 
     public boolean waitForListElementInVisible(WebDriver driver, String locator) {
-        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver, locator)));
+        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver, locator)));
     }
 
     public void waitForElementClickable(WebDriver driver, String locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
     }
 
     public void waitForElementClickable(WebDriver driver, String locator, String restParameter) {
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstant.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
     }
 
     public void uploadMultipleFiles(WebDriver driver, String... fileNames) {
-        String filePath = GlobalConstant.getUploadPath();
+        String filePath = GlobalConstants.getUploadPath();
 
         String fullFileName = " ";
 
@@ -409,5 +411,22 @@ public class BasePage {
 
     public boolean waitAllLoadingIconInvisible(WebDriver driver) {
         return waitForListElementInVisible(driver, BasePageUI.LOADING_ICON);
+    }
+
+    public boolean isNameSortAscending(String locator) {
+        // Lấy danh sách product name dưới dạng WebElement
+        List<WebElement> productNameElements = getListElement(driver, locator);
+
+        // Lấy danh sách text từ các phần tử WebElement
+        List<String> productNameText = productNameElements.stream()
+                .map(WebElement::getText)
+                .toList();
+
+        // Sao chép danh sách và sắp xếp
+        List<String> sortedProductNameText = new ArrayList<>(productNameText);
+        Collections.sort(sortedProductNameText);
+
+        // Kiểm tra xem danh sách ban đầu có được sắp xếp không
+        return productNameText.equals(sortedProductNameText);
     }
 }

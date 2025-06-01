@@ -1,6 +1,8 @@
 package utilities;
 
 import commons.GlobalConstants;
+import org.openqa.selenium.remote.CapabilityType;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

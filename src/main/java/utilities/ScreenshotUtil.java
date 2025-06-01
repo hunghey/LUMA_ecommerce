@@ -1,6 +1,6 @@
 package utilities;
 
-import commons.GlobalConstant;
+import commons.GlobalConstants;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -21,7 +21,7 @@ public class ScreenshotUtil {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
             // Đường dẫn lưu ảnh
-            String screenshotPath = GlobalConstant.getScreenshotpathPath() + timestamp + ".png";
+            String screenshotPath = GlobalConstants.getScreenshotpathPath() + timestamp + ".png";
 
             // Copy ảnh vào thư mục project
             FileUtils.copyFile(srcFile, new File(screenshotPath));
