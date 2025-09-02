@@ -2,29 +2,36 @@ package pageObjects;
 
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
-import pageUIs.LoginPageUI;
+import pageUIs.HomePageUI;
 
-public class Login extends BasePage {
+public class HomePage extends BasePage {
     private WebDriver driver;
 
-    public Login(WebDriver driver){ this.driver = driver; }
+    public HomePage(WebDriver driver){ this.driver = driver; }
 
-    public void enterToUserName(String username) {
-       waitForElementVisible(driver, LoginPageUI.USERNAME_TEXTBOX);
-       sendKeyToElement(driver, LoginPageUI.USERNAME_TEXTBOX, username);
-
+    public void checkLogo(){
+        isElementDisplayed(driver, HomePageUI.landingLogo);
     }
 
-    public void enterToPassword(String password) {
-        waitForElementVisible(driver, LoginPageUI.PASSWORD_TEXTBOX);
-        sendKeyToElement(driver, LoginPageUI.PASSWORD_TEXTBOX, password);
-
-    }
-
-    public Dashboard clickToLoginPage() {
-        waitForElementClickable(driver, LoginPageUI.PASSWORD_TEXTBOX);
-        clickToElement(driver, LoginPageUI.LOGIN_BUTTON);
-        waitAllLoadingIconInvisible(driver);
-        return PageGenerator.getDashboardPage(driver);
+    public void headerTransitNavigationMenu(String menu, String submenu, String submenu2){
+        if (menu == null || menu.isEmpty()) {
+            System.out.println("Menu is EMPTY");
+        } else {
+            System.out.println("Navigating Menu: " + menu);
+            hoverToElement(driver,HomePageUI.headerNavigationMenu, menu);
+        }
+        if (submenu == null || submenu.isEmpty()) {
+            System.out.println("SubMenu is EMPTY");
+        } else if (submenu2 == null || submenu2.isEmpty()) {
+            clickToElement(driver,HomePageUI.headerNavigationMenu, submenu);
+        } else {
+            hoverToElement(driver,HomePageUI.headerNavigationMenu, submenu);
+        
+            if (submenu2 == null || submenu2.isEmpty()) {
+                System.out.println("SubMenu2 is EMPTY");
+            } else {
+                clickToElement(driver,HomePageUI.headerNavigationMenu, submenu2);
+            }
+        }
     }
 }

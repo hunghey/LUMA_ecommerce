@@ -2,7 +2,7 @@ package commons;
 
 import java.nio.file.Paths;
 
-public class GlobalConstants {
+public class GlobalConstants{
     public static final String PROJECT_PATH = System.getProperty("user.dir");
     public static final String OS_NAME = System.getProperty("os.name");
     public static final String SEPARATOR = System.getProperty("file.separator");

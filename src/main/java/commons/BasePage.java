@@ -278,6 +278,10 @@ public class BasePage {
         new Actions(driver).moveToElement(getElement(driver, locator)).perform();
     }
 
+    public void hoverToElement(WebDriver driver, String locator,String restParameter) {
+        new Actions(driver).moveToElement(getElement(driver, castParameter(locator, restParameter))).perform();
+    }
+
     public void clickAndHoldToElement(WebDriver driver, String locator) {
         new Actions(driver).clickAndHold(getElement(driver, locator)).perform();
     }
