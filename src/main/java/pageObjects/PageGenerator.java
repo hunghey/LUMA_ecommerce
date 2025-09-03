@@ -7,6 +7,15 @@ import pageObjects.pim.employee.EmployeeListDetail;
 import pageObjects.pim.employee.PersonalDetails;
 
 public class PageGenerator {
+
+    public static HomePage getHomePage(WebDriver driver){
+        return new HomePage(driver);
+    }
+
+    public static ProductList getProductListPage(WebDriver driver){
+        return new ProductList(driver);
+    }
+
     public static Login getLoginPage(WebDriver driver){
         return new Login(driver);
     }

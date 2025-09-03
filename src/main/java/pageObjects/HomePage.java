@@ -13,7 +13,7 @@ public class HomePage extends BasePage {
         isElementDisplayed(driver, HomePageUI.landingLogo);
     }
 
-    public void headerTransitNavigationMenu(String menu, String submenu, String submenu2){
+    public ProductList headerTransitNavigationMenu(String menu, String submenu, String submenu2){
         if (menu == null || menu.isEmpty()) {
             System.out.println("Menu is EMPTY");
         } else {
@@ -33,5 +33,6 @@ public class HomePage extends BasePage {
                 clickToElement(driver,HomePageUI.headerNavigationMenu, submenu2);
             }
         }
+        return PageGenerator.getProductListPage(driver);
     }
 }

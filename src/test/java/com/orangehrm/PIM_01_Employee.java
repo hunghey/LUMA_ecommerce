@@ -19,8 +19,8 @@ public class PIM_01_Employee extends BaseTest {
     public void TC1(){
         HomePage homePage = new HomePage(driver);
         homePage.checkLogo();
-        homePage.headerTransitNavigationMenu("Women","Tops",null);  
-        System.out.println("aaa");
+        homePage.headerTransitNavigationMenu("Women","Tops","Jackets")
+        .productListPage_Check_Title("Jackets");
 
     }
     @AfterClass
