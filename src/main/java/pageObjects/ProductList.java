@@ -12,14 +12,15 @@ public class ProductList extends BasePage {
 
     public ProductList(WebDriver driver){ this.driver = driver; }
 
-    public void productListPage_Check_Title(String expectedTitle){
+    public ProductList productListPage_Check_Title(String expectedTitle){
         String actualTitle = getElementText(driver, ProductListPageUI.productListPage_Title);
         Assert.assertEquals(actualTitle, expectedTitle);
+        return PageGenerator.getProductListPage(driver);
     }
     
-    public void productListPage_Transit_ProductDetailsPage(){
-        hoverToElement(driver,ProductListPageUI.productListPage_FirstProduct);
-        clickToElement(driver,ProductListPageUI.ProductListPage_FirstProduct_AddToCart);
+    public ProductDetails productListPage_Transit_ProductDetailsPage(){
+        clickToElement(driver,ProductListPageUI.productListPage_FirstProduct);
+        return PageGenerator.getProductDetailsPage(driver);
     }
     
 }
