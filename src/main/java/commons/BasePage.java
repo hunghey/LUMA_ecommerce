@@ -141,6 +141,7 @@ public class BasePage {
     }
 
     public void clickToElement(WebDriver driver, String locator, String restParameter) {
+        waitForElementClickable(driver, locator, restParameter);
         getElement(driver, castParameter(locator, restParameter)).click();
     }
 
@@ -151,7 +152,7 @@ public class BasePage {
         } else {
             key = Keys.COMMAND;
         }
-        getElement(driver, locator).sendKeys(Keys.chord(key, "a", Keys.BACK_SPACE));
+        getElement(driver, locator).clear();
         sleepInSeconds(1);
         getElement(driver, locator).sendKeys(keyToSend);
 
@@ -279,8 +280,18 @@ public class BasePage {
     }
 
     public void hoverToElement(WebDriver driver, String locator,String restParameter) {
+        waitForElementClickable(driver, locator, restParameter);
         new Actions(driver).moveToElement(getElement(driver, castParameter(locator, restParameter))).perform();
     }
+
+    public void hoverToElementJS(WebDriver driver, String locator,String restParameter) {
+        waitForElementClickable(driver, locator, restParameter);
+        String mouseOverScript = "var evObj = document.createEvent('MouseEvents');" +
+                "evObj.initMouseEvent('mouseover', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+                "arguments[0].dispatchEvent(evObj);";
+        ((JavascriptExecutor) driver).executeScript(mouseOverScript, getElement(driver, castParameter(locator, restParameter)));
+    }
+
 
     public void clickAndHoldToElement(WebDriver driver, String locator) {
         new Actions(driver).clickAndHold(getElement(driver, locator)).perform();
