@@ -7,5 +7,5 @@ public class ProductDetailsPageUI {
     public static final String productDetailsPage_Qty = "xpath=//input[@name='qty']";
     public static final String productDetailsPage_addToCart = "xpath=//button[@id='product-addtocart-button']";
     public static final String productDetailsPage_messageSuccess = "xpath=//div[@class='message success']";
-    public static final String productDetailsPage_QtyInCart = "xpath=//button[@id='menu-cart-icon']//span";
+    public static final String productDetailsPage_QtyInCart = "xpath=//span[@x-text='cart.summary_count']";
 }

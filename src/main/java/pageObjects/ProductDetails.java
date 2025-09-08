@@ -3,6 +3,7 @@ package pageObjects;
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import pageUIs.CartPageUI;
 import pageUIs.HomePageUI;
 import pageUIs.ProductDetailsPageUI;
 import pageUIs.ProductListPageUI;
@@ -27,9 +28,14 @@ public class ProductDetails extends BasePage {
     }
 
     public ProductDetails productDetailsPage_Check_AddSucess(String expectedQty) {
+//        sleepInSeconds(10);
         isElementDisplayed(driver, ProductDetailsPageUI.productDetailsPage_messageSuccess);
         String actualQty = getElementText(driver, ProductDetailsPageUI.productDetailsPage_QtyInCart);
         Assert.assertEquals(actualQty, expectedQty);
         return PageGenerator.getProductDetailsPage(driver);
+    }
+    public ProductCart header_Transit_CartPage() {
+        clickToElement(driver, HomePageUI.headerNavigationCard);
+        return PageGenerator.getCartPage(driver);
     }
 }

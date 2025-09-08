@@ -15,4 +15,9 @@ public class PageGenerator {
     public static ProductDetails getProductDetailsPage(WebDriver driver){
         return new ProductDetails(driver);
     }
+
+    public static ProductCart getCartPage(WebDriver driver) {
+        return new ProductCart(driver);
+    }
+
 }
