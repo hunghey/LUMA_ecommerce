@@ -7,7 +7,7 @@
 
         <classes>
 
-            <class name="com.orangehrm.PIM_01_Employee"/>
+            <class name="com.orangehrm.TC_01_AddtoCart"/>
         </classes>
     </test>
 </suite>

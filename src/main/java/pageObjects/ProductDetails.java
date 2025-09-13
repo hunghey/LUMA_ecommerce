@@ -28,7 +28,7 @@ public class ProductDetails extends BasePage {
     }
 
     public ProductDetails productDetailsPage_Check_AddSucess(String expectedQty) {
-//        sleepInSeconds(10);
+        sleepInSeconds(10);
         isElementDisplayed(driver, ProductDetailsPageUI.productDetailsPage_messageSuccess);
         String actualQty = getElementText(driver, ProductDetailsPageUI.productDetailsPage_QtyInCart);
         Assert.assertEquals(actualQty, expectedQty);

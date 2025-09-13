@@ -16,8 +16,7 @@ public class ProductCart extends BasePage {
         return PageGenerator.getCartPage(driver);
     }
     public ProductCart miniCartPopup_Check_InProduct(String productName, String size, String color, String qty){
-
-//        sleepInSeconds(5);
+        sleepInSeconds(5);
         String actualQty = getElementText(driver, CartPageUI.CartPage_QtyInCart);
         Assert.assertEquals(actualQty, qty);
 
