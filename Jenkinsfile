@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'win'  // Chỉ định agent với label "win"
+    }
 
     environment {
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'  // JDK 21 đã cấu hình trong Jenkins Global Tool
@@ -20,15 +22,15 @@ pipeline {
         }
 
         stage('Install Dependencies') {
-            steps {
-                sh 'chmod +x gradlew' // Cấp quyền thực thi
-                sh './gradlew build'  // Chạy build
+           steps {
+                // Trên Windows, dùng bat thay vì sh. Chạy gradlew.bat trực tiếp (không cần chmod)
+                bat 'gradlew.bat build'  // Hoặc nếu dùng Gradle tool: bat "${GRADLE_HOME}/bin/gradle.bat build"
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh './gradlew test'
+                bat './gradlew test'
             }
         }
 
@@ -56,6 +58,7 @@ pipeline {
 //         }
 //     }
 }
+
 
 
 
