@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'  // JDK 21 đã cấu hình trong Jenkins Global Tool
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        PATH = "${JAVA_HOME}\\bin:${env.PATH}"
         GRADLE_HOME = tool name: 'Gradle'            // Nếu dùng Gradle
     }
 
@@ -58,6 +58,7 @@ pipeline {
 //         }
 //     }
 }
+
 
 
 
