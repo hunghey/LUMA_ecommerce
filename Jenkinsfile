@@ -21,7 +21,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // sh 'chmod +x gradlew' // Cấp quyền thực thi
+                sh 'chmod +x gradlew' // Cấp quyền thực thi
                 sh './gradlew build'  // Chạy build
             }
         }
@@ -56,5 +56,6 @@ pipeline {
 //         }
 //     }
 }
+
 
 
