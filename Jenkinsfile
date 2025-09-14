@@ -7,11 +7,13 @@ pipeline {
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'  // JDK 21 đã cấu hình trong Jenkins Global Tool
         PATH = "${JAVA_HOME}\\bin:${env.PATH}"
         GRADLE_HOME = tool name: 'Gradle'            // Nếu dùng Gradle
+        ALLURE_HOME = tool name: 'Allure', type: 'allure'
     }
 
     tools {
         jdk 'JDK21'
         gradle 'Gradle'
+        allure 'Allure'
     }
 
     stages {
@@ -34,30 +36,27 @@ pipeline {
             }
         }
 
-//         stage('Generate Allure Report') {
-//             steps {
-//                 sh './gradlew allureReport'
-//             }
-//         }
+       stage('Generate Allure Report') {
+            steps {
+                // Chạy lệnh Allure để tạo và mở báo cáo
+                bat """
+                    ${ALLURE_HOME}\\bin\\allure.bat generate allure-results --clean -o allure-report
+                    ${ALLURE_HOME}\\bin\\allure.bat open allure-report
+                """
+            }
+        }
 
-//         stage('Publish Allure Report') {
-//             steps {
-//                 allure([
-//                     includeProperties: false,
-//                     jdk: '',
-//                     results: [[path: 'build/allure-results']]
-//                 ])
-//             }
-//         }
     }
 
-//     post {
-//         always {
-//             archiveArtifacts artifacts: '**/build/reports/tests/test/*.*', allowEmptyArchive: true
-//             junit 'build/test-results/test/*.xml'
-//         }
-//     }
+    post {
+        always {
+            // Xuất báo cáo Allure trên Jenkins
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-report']]
+            cleanWs()
+        }
+    }
 }
+
 
 
 
