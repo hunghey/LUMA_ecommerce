@@ -1,64 +1,80 @@
 pipeline {
     agent {
-        label 'win'  // Chỉ định agent với label "win"
+        label 'win'
+    }
+    parameters {
+            string(name: 'DOCKER_HUB_USER', defaultValue: 'hunghey', description: 'Docker Hub username')
+            string(name: 'DOCKER_IMAGE_NAME', defaultValue: 'luma-java-test', description: 'Docker image name')
+    }
+    environment {
+        DOCKER_HUB_USER = "${params.DOCKER_HUB_USER}"
+        DOCKER_IMAGE_NAME = "${params.DOCKER_IMAGE_NAME}"
+        DOCKER_PASSWORD = credentials('docker-hub-password')
     }
 
     environment {
-        JAVA_HOME = tool name: 'JDK21', type: 'jdk'  // JDK 21 đã cấu hình trong Jenkins Global Tool
-        PATH = "${JAVA_HOME}\\bin:${env.PATH}"
-        GRADLE_HOME = tool name: 'Gradle'            // Nếu dùng Gradle
+        JAVA_HOME = tool name: 'JDK21', type: 'jdk'
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
         ALLURE_HOME = tool name: 'Allure', type: 'allure'
+        DOCKER_HUB_USER = 'your-docker-hub-username'  // Thay bằng username Docker Hub
+        DOCKER_IMAGE_NAME = 'luma-java-test'
+        DOCKER_PASSWORD = credentials('docker-hub-password')  // Cấu hình credential trong Jenkins
     }
-
     tools {
         jdk 'JDK21'
-        gradle 'Gradle'
-        allure 'Allure'
+        allure 'AllureTool'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
-        stage('Install Dependencies') {
-           steps {
-                // Trên Windows, dùng bat thay vì sh. Chạy gradlew.bat trực tiếp (không cần chmod)
-                bat 'gradlew.bat build'  // Hoặc nếu dùng Gradle tool: bat "${GRADLE_HOME}/bin/gradle.bat build"
+        stage('Build Project') {
+            steps {
+                bat 'gradlew.bat clean build -x test'  // Build trên Windows
             }
         }
-
-        stage('Run Tests') {
+        stage('Build Docker Image') {
             steps {
-                bat './gradlew test'
+                script {
+                    bat """
+                        docker build -t ${DOCKER_HUB_USER}/${DOCKER_IMAGE_NAME}:latest .
+                    """
+                }
             }
         }
-
-       stage('Generate Allure Report') {
+        stage('Push Docker Image') {
             steps {
-                // Chạy lệnh Allure để tạo và mở báo cáo
+                script {
+                    bat """
+                        docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_PASSWORD}
+                        docker push ${DOCKER_HUB_USER}/${DOCKER_IMAGE_NAME}:latest
+                    """
+                }
+            }
+        }
+        stage('Run Tests in Docker') {
+            steps {
+                script {
+                    bat """
+                        docker run --rm ${DOCKER_HUB_USER}/${DOCKER_IMAGE_NAME}:latest
+                    """
+                }
+            }
+        }
+        stage('Generate Allure Report') {
+            steps {
                 bat """
-                    ${ALLURE_HOME}\\bin\\allure.bat generate allure-results --clean -o allure-report
-                    ${ALLURE_HOME}\\bin\\allure.bat open allure-report
+                    "${ALLURE_HOME}\\bin\\allure.bat" generate allure-results --clean -o allure-report
                 """
             }
         }
-
     }
-
     post {
         always {
-            // Xuất báo cáo Allure trên Jenkins
             allure includeProperties: false, jdk: '', results: [[path: 'allure-report']]
             cleanWs()
         }
     }
 }
-
-
-
-
-
-
