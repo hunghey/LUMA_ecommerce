@@ -22,7 +22,7 @@ pipeline {
     }
     tools {
         jdk 'JDK21'
-        allure 'AllureTool'
+        allure 'Allure'
     }
     stages {
         stage('Checkout') {
