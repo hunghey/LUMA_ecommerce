@@ -9,7 +9,7 @@ pipeline {
     environment {
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'
         PATH = "${JAVA_HOME}\\bin;${env.PATH}"
-        ALLURE_HOME = tool name: 'Allure', type: 'allure'
+        ALLURE_HOME = 'C:\\Program Files\\allure-2.34.1'
         DOCKER_HUB_USER = "${params.DOCKER_HUB_USER}"
         DOCKER_IMAGE_NAME = "${params.DOCKER_IMAGE_NAME}"
         DOCKER_PASSWORD = credentials('docker-hub-password')
