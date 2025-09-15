@@ -58,11 +58,13 @@ pipeline {
             }
         }
         stage('Generate Allure Report') {
-            steps {
-                bat """
+            bat """
+                if exist allure-results (
                     "${ALLURE_HOME}\\bin\\allure.bat" generate allure-results --clean -o allure-report
-                """
-            }
+                ) else (
+                    echo Allure results not found, skipping report generation.
+                )
+            """
         }
     }
     post {
