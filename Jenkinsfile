@@ -3,22 +3,16 @@ pipeline {
         label 'win'
     }
     parameters {
-            string(name: 'DOCKER_HUB_USER', defaultValue: 'hunghey', description: 'Docker Hub username')
-            string(name: 'DOCKER_IMAGE_NAME', defaultValue: 'luma-java-test', description: 'Docker image name')
+        string(name: 'DOCKER_HUB_USER', defaultValue: 'hunghey', description: 'Docker Hub username')
+        string(name: 'DOCKER_IMAGE_NAME', defaultValue: 'luma-java-test', description: 'Docker image name')
     }
-    environment {
-        DOCKER_HUB_USER = "${params.DOCKER_HUB_USER}"
-        DOCKER_IMAGE_NAME = "${params.DOCKER_IMAGE_NAME}"
-        DOCKER_PASSWORD = credentials('docker-hub-password')
-    }
-
     environment {
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'
         PATH = "${JAVA_HOME}\\bin;${env.PATH}"
         ALLURE_HOME = tool name: 'Allure', type: 'allure'
-        DOCKER_HUB_USER = 'your-docker-hub-username'  // Thay bằng username Docker Hub
-        DOCKER_IMAGE_NAME = 'luma-java-test'
-        DOCKER_PASSWORD = credentials('docker-hub-password')  // Cấu hình credential trong Jenkins
+        DOCKER_HUB_USER = "${params.DOCKER_HUB_USER}"
+        DOCKER_IMAGE_NAME = "${params.DOCKER_IMAGE_NAME}"
+        DOCKER_PASSWORD = credentials('docker-hub-password')
     }
     tools {
         jdk 'JDK21'
