@@ -1,7 +1,5 @@
-# Sử dụng image base có Gradle và JDK 21
 FROM gradle:8.10-jdk21 AS build
 
-# Cài đặt Chrome và ChromeDriver
 USER root
 RUN apt-get update && apt-get install -y \
     wget \
@@ -9,27 +7,31 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     --no-install-recommends \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-    && CHROMEVER=$(google-chrome --version | sed 's/.* \([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*/\1/' || echo "114.0.5735.90") \
-    && DRIVERVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMEVER" || echo "114.0.5735.90") \
-    && wget -q --continue -P /usr/local/bin https://chromedriver.storage.googleapis.com/$DRIVERVER/chromedriver_linux64.zip \
-    && unzip /usr/local/bin/chromedriver_linux64.zip -d /usr/local/bin/ \
-    && rm /usr/local/bin/chromedriver_linux64.zip \
+    && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+    && rm google-chrome-stable_current_amd64.deb \
+    # Sử dụng version cố định để tránh lỗi
+    && CHROME_VERSION="130.0.6723.69" \
+    && echo "Installing chromedriver version: $CHROME_VERSION" \
+    && wget -q "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chromedriver-linux64.zip" -O chromedriver.zip \
+    && unzip chromedriver.zip \
+    && mv chromedriver-linux64/chromedriver /usr/local/bin/ \
     && chmod +x /usr/local/bin/chromedriver \
+    && rm -rf chromedriver.zip chromedriver-linux64 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Thiết lập thư mục làm việc
-WORKDIR /app
-COPY . .
+# Chuyển về user gradle để tránh permission issues
+USER gradle
 
-# Build dự án (không chạy test)
+WORKDIR /app
+COPY --chown=gradle:gradle . .
 RUN gradle clean build -x test --no-daemon
 
-# Stage chạy test với Chrome
 FROM build AS test
-USER gradle
+USER root
+# Thiết lập môi trường cho test
+ENV CHROME_BIN="/usr/bin/google-chrome"
+ENV CHROMEDRIVER_PATH="/usr/local/bin/chromedriver"
+
 CMD ["gradle", "test", "--no-daemon"]
